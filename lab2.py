@@ -1,3 +1,4 @@
+from search import Graph
 #
 # Sus respuestas para las preguntas falso y verdadero deben tener la siguiente forma.
 # Sus respuestas deben verse como las dos siguientes:
@@ -6,43 +7,71 @@
 
 # 1: Falso o Verdadero - busqueda Hill Climbing garantiza encontrar una respuesta
 #    si es que la hay
-ANSWER1 = None
+ANSWER1 = False
 
 # 2: Falso o Verdadero - busqueda Best-first encontrara una ruta optima
 #    (camino mas corto).
-ANSWER2 = None
+ANSWER2 = False
 
 # 3: Falso o Verdadero - Best-first y Hill climbing hacen uso de el
 #    valor de la heuristica de los nodos.
-ANSWER3 = None
+ANSWER3 = True
 
 # 4: Falso o Verdadero - A* utiliza un conjunto extendido de nodos
-ANSWER4 = None
+ANSWER4 = True
 
 # 5: Falso o Verdadero - Anchura primero esta garantizado a encontrar un
 #    camino con el minimo numero de nodos posible
-ANSWER5 = None
+ANSWER5 = True
 
 # 6: Falso o Verdadero - El Branch and bound regular utiliza valores de
 #    la heuristica para acelerar la busqueda de un camino optimo
-ANSWER6 = None
+ANSWER6 = False
 
 # Import the Graph data structure from 'search.py'
 # Refer to search.py for documentation
-from search import Graph
 
 # Implemente estos y los puede revisar con el modulo tester
 
 def bfs(graph, start, goal):
-    raise NotImplementedError
+    queue = []
+    set = []
+    queue.append([start])
+    while len(queue) != 0:
+        set = queue.pop(0)
+        current = set[-1]
+        if current == goal:
+            return set
+        else:
+            adjacent = graph.get_connected_nodes(current)
+            for i in range(len(adjacent)):
+                path = list(set)
+                path.append(adjacent[i])
+                queue.append(path)
+
 
 ## Si hizo el anterior el siguiente debe ser muy sencillo
 def dfs(graph, start, goal):
-    raise NotImplementedError
+    queue = []
+    set = []
+    visit = []
+    queue.append([start])
+    while len(queue) != 0:
+        set = queue.pop(0)
+        current = set[-1]
+        if current == goal:
+            return set
+        else:
+            if not current in visit:
+                visit.append(current)
+                adjacent = graph.get_connected_nodes(current)
+                for i in range(len(adjacent)):
+                    path = list(set)
+                    path.append(adjacent[i])
+                    queue.insert(0,path)
 
 
 ## Ahora agregue heuristica a su busqueda
-## Hill-climbing puede verse como un tipo de busqueda a profundidad primero
 ## La busqueda debe ser hacia los valores mas bajos que indica la heuristica
 def hill_climbing(graph, start, goal):
     raise NotImplementedError
